@@ -1,0 +1,81 @@
+{
+	"info": {
+		"_postman_id": "c4d96e09-33b0-4edc-9565-d69f02b99596",
+		"name": "ClearLabs",
+		"description": "Test cases for ClearLabs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Weather API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c6e6a8e7-d6b6-4ff1-b91c-96f08df53f33",
+						"exec": [
+							"const body = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", () => {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Latitude and Longitude\", () => {\r",
+							"    var coord = body.coord;\r",
+							"    pm.expect(coord.lon).to.eql(pm.iterationData.get(\"longitude\"));\r",
+							"    pm.expect(coord.lat).to.eql(pm.iterationData.get(\"latitude\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"city is London\", function () {\r",
+							"    pm.expect(body.name).to.eql(pm.iterationData.get(\"city\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"country is Great Britain\", () => {\r",
+							"    var sys = body.sys;\r",
+							"    pm.expect(sys.country).to.eql(pm.iterationData.get(\"country\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present and is application/json\", () => {\r",
+							"  pm.response.to.have.header(\"Content-Type\");\r",
+							"  pm.expect(pm.response.headers.get('Content-Type')).contains('application/json');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22",
+					"protocol": "https",
+					"host": [
+						"samples",
+						"openweathermap",
+						"org"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "London,uk"
+						},
+						{
+							"key": "appid",
+							"value": "b6907d289e10d714a6e88b30761fae22"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
